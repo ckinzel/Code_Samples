@@ -1,15 +1,15 @@
-train_folder1 = 'C:\Users\Martin\Documents\MATLAB\train1';
-train_folder2 = 'C:\Users\Martin\Documents\MATLAB\train2';
-train_folder3 = 'C:\Users\Martin\Documents\MATLAB\train3';
-train_folder4 = 'C:\Users\Martin\Documents\MATLAB\train4';
-train_folder5 = 'C:\Users\Martin\Documents\MATLAB\train5';
-train_folder6 = 'C:\Users\Martin\Documents\MATLAB\train6';
-train_folder7 = 'C:\Users\Martin\Documents\MATLAB\train7';
-train_folder8 = 'C:\Users\Martin\Documents\MATLAB\train8';
-train_folder9 = 'C:\Users\Martin\Documents\MATLAB\train9';
+train_folder1 = 'C:\Users\charles\Documents\MATLAB\train1';
+train_folder2 = 'C:\Users\charles\Documents\MATLAB\train2';
+train_folder3 = 'C:\Users\charles\Documents\MATLAB\train3';
+train_folder4 = 'C:\Users\charles\Documents\MATLAB\train4';
+train_folder5 = 'C:\Users\charles\Documents\MATLAB\train5';
+train_folder6 = 'C:\Users\charles\Documents\MATLAB\train6';
+train_folder7 = 'C:\Users\charles\Documents\MATLAB\train7';
+train_folder8 = 'C:\Users\charles\Documents\MATLAB\train8';
+train_folder9 = 'C:\Users\charles\Documents\MATLAB\train9';
 
-test1_folder = 'C:\Users\Martin\Documents\MATLAB\test1';
-test2_folder = 'C:\Users\Martin\Documents\MATLAB\test2';
+test1_folder = 'C:\Users\charles\Documents\MATLAB\test1';
+test2_folder = 'C:\Users\charles\Documents\MATLAB\test2';
 
 % Key variables pertaining to recognition rate
 pps = 1; % Pictures per subject
