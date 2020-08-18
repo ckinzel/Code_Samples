@@ -1,0 +1,19 @@
+P350 Capacitance vs Temp Experimental Initiailization File
+
+Control parameters:
+
+Starting temp = 20.0 deg C
+
+Temp step = 5.0 deg C
+
+Ending temp = 70.0 deg C
+
+Number of measurment cycles per temp for averaging = 30
+
+Number of points per timed measurment sequence = 1000
+
+Time interval for timed measurment sequence = 1.0E-5 sec
+
+Automatically launch data viewer at end = 0
+
+End of control Parameters
