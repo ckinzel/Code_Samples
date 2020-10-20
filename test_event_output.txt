@@ -1,0 +1,110 @@
+# Ensure all 'event_output' commands and event names parse correctly.
+
+simulation_output
+event_output
+
+   file replay.evt
+   file STDOUT
+   file NULL
+
+   lat_lon_format d.4
+   lat_lon_format d:m.4
+   lat_lon_format d:m:s.2
+
+   time_format s.4
+   time_format m:s.4
+   time_format h:m:s.4
+
+   print_eci_locations false
+   print_failed_message_delivery_attempts false
+   print_failed_sensor_detection_attempts false
+   print_single_line_per_event false
+   print_track_in_message false
+   print_track_covariance false
+   print_track_residual_covariance false
+   flush_output false
+
+   disable all
+   enable  all
+
+   enable BTREE_NODE_CHILDREN
+   enable BTREE_NODE_EXEC
+   enable COMM_BROKEN
+   enable COMM_FREQUENCY_CHANGED
+   enable COMM_NON_OPERATIONAL
+   enable COMM_OPERATIONAL
+   enable COMM_TURNED_OFF
+   enable COMM_TURNED_ON
+   enable COMMENT
+   enable CRASHED_INTO_GROUND
+   enable EXCHANGE_QUERIED
+   enable EXCHANGE_NEGOTIATED
+   enable EXCHANGE_COMPLETED
+   enable EXECUTE_CALLBACK
+   enable LOCAL_TRACK_CORRELATION
+   enable LOCAL_TRACK_DECORRELATION
+   enable LOCAL_TRACK_DROPPED
+   enable LOCAL_TRACK_INITIATED
+   enable LOCAL_TRACK_UPDATED
+   enable MESSAGE_DELIVERY_ATTEMPT
+   enable MESSAGE_DISCARDED
+   enable MESSAGE_FAILED_ROUTING
+   enable MESSAGE_HOP
+   enable MESSAGE_QUEUED
+   enable MESSAGE_RECEIVED
+   enable MESSAGE_TRANSMITTED
+   enable MESSAGE_TRANSMITTED_HEARTBEAT
+   enable MESSAGE_TRANSMIT_ENDED
+   enable MESSAGE_UPDATED
+   enable MOVER_BROKEN
+   enable MOVER_BURNED_OUT
+   enable MOVER_NON_OPERATIONAL
+   enable MOVER_OPERATIONAL
+   enable MOVER_STAGED
+   enable MOVER_TURNED_OFF
+   enable MOVER_TURNED_ON
+   enable NAVIGATION_STATUS_CHANGED
+   enable OPERATING_LEVEL_CHANGED
+   enable PLATFORM_ADDED
+   enable PLATFORM_APPEARANCE_CHANGED
+   enable PLATFORM_BROKEN
+   enable PLATFORM_CAPABILITY_CHANGED
+   enable PLATFORM_DELETED
+   enable PLATFORM_INITIALIZED
+   enable PLATFORM_OMITTED
+   enable PROCESSOR_BROKEN
+   enable PROCESSOR_NON_OPERATIONAL
+   enable PROCESSOR_TURNED_OFF
+   enable PROCESSOR_TURNED_ON
+   enable OPERATING_LEVEL_CHANGED
+   enable SENSOR_BROKEN
+   enable SENSOR_DETECTION_ATTEMPT
+   enable SENSOR_DETECTION_CHANGED
+   enable SENSOR_FREQUENCY_CHANGED
+   enable SENSOR_MODE_ACTIVATED
+   enable SENSOR_MODE_DEACTIVATED
+   enable SENSOR_NON_OPERATIONAL
+   enable SENSOR_OPERATIONAL
+   enable SENSOR_REQUEST_CANCELED
+   enable SENSOR_REQUEST_INITIATED
+   enable SENSOR_REQUEST_UPDATED
+   enable SENSOR_TRACK_COASTED
+   enable SENSOR_TRACK_DROPPED
+   enable SENSOR_TRACK_INITIATED
+   enable SENSOR_TRACK_UPDATED
+   enable SENSOR_TURNED_OFF
+   enable SENSOR_TURNED_ON
+   enable STATE_ENTRY
+   enable STATE_EXIT
+   enable TANKING_EVENT
+   enable TASK_ASSIGNED
+   enable TASK_CANCELED
+   enable TASK_COMPLETED
+   enable TEAM_NAME_DEFINITION
+
+   // Event aliases (for backward compatibility)
+   enable AUTONOMY_LEVEL_CHANGED
+   enable RAN_OUT_OF_FUEL
+
+end_event_output
+end_simulation_output

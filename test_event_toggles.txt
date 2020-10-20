@@ -1,0 +1,102 @@
+simulation_output
+    disable all
+	enable PLATFORM_ADDED
+	enable PLATFORM_DELETED
+	enable TEAM_NAME_DEFINITION
+	enable PLATFORM_INITIALIZED
+	
+	event_output
+		file "my_results.evt"
+		
+		# Usually we don't want this, but we need in order to check file contents at the end...
+		flush_output true 
+		
+		disable all
+		enable ROUTER_OPERATIONAL
+		enable ROUTER_TURNED_ON
+		enable NETWORK_ADDED
+    end_event_output
+	
+	csv_event_output
+		# Usually we don't want this, but we need in order to check file contents at the end...
+		flush_output true 
+		
+		file "my_results.csv"
+	end_csv_event_output
+end_simulation_output
+
+platform foo1 WSF_PLATFORM
+	side blue
+end_platform
+
+platform foo2 WSF_PLATFORM
+	side red
+end_platform
+
+# Check results
+observer 
+   enable SIMULATION_COMPLETE
+end_observer
+
+script_variables
+	Map<int, string> EXPECTED_CSV_CONTENT = Map<int,string>();
+	EXPECTED_CSV_CONTENT[100] = "0.000000e+00,TEAM_NAME_DEFINITION,foo1,blue";
+	EXPECTED_CSV_CONTENT[101] = "0.000000e+00,PLATFORM_INITIALIZED,foo1,blue,WSF_PLATFORM,1.000000e+00,0.000000e+00,0.000000e+00,0.00000000e+00,2.23167444e+06,5.97496947e+06,-7.95753188e+02,0.000,0.000,0.000,0.000,0.000,0.000,0.000,465.101,-0.937,0.350,0.000,0.000,0.000,0.000,0.000,0.034,-0.350,-0.937,0.000";
+	EXPECTED_CSV_CONTENT[102] = "0.000000e+00,PLATFORM_ADDED,foo2,red,WSF_PLATFORM,,0.000000e+00,0.000000e+00,0.00000000e+00,2.23167444e+06,5.97496947e+06,-7.95753188e+02,0.000,0.000,0.000,0.000,0.000,0.000,0.000,465.101,-0.937,0.350,0.000,0.000,0.000,0.000,0.000,0.034,-0.350,-0.937,0.000";
+	EXPECTED_CSV_CONTENT[103] = "0.000000e+00,TEAM_NAME_DEFINITION,foo2,red";
+	EXPECTED_CSV_CONTENT[104] = "0.000000e+00,PLATFORM_INITIALIZED,foo2,red,WSF_PLATFORM,1.000000e+00,0.000000e+00,0.000000e+00,0.00000000e+00,2.23167444e+06,5.97496947e+06,-7.95753188e+02,0.000,0.000,0.000,0.000,0.000,0.000,0.000,465.101,-0.937,0.350,0.000,0.000,0.000,0.000,0.000,0.034,-0.350,-0.937,0.000";
+	EXPECTED_CSV_CONTENT[105] = "6.000100e+01,PLATFORM_DELETED,foo1,blue,WSF_PLATFORM,1.000000e+00,0.000000e+00,0.000000e+00,0.00000000e+00,2.23167444e+06,5.97496947e+06,-7.95753188e+02,0.000,0.000,0.000,0.000,0.000,0.000,0.000,465.101,-0.937,0.350,0.000,0.000,0.000,0.000,0.000,0.034,-0.350,-0.937,0.000";
+	EXPECTED_CSV_CONTENT[106] = "6.000100e+01,PLATFORM_DELETED,foo2,red,WSF_PLATFORM,1.000000e+00,0.000000e+00,0.000000e+00,0.00000000e+00,2.23167444e+06,5.97496947e+06,-7.95753188e+02,0.000,0.000,0.000,0.000,0.000,0.000,0.000,465.101,-0.937,0.350,0.000,0.000,0.000,0.000,0.000,0.034,-0.350,-0.937,0.000";
+
+	Map<int, string> EXPECTED_EVT_CONTENT = Map<int,string>();
+	EXPECTED_EVT_CONTENT[1]  = "0.00000 ROUTER_OPERATIONAL foo1 Router: default Type: WSF_COMM_ROUTER \\";
+	EXPECTED_EVT_CONTENT[4]  = "0.00000 ROUTER_OPERATIONAL foo2 Router: default Type: WSF_COMM_ROUTER \\";
+	EXPECTED_EVT_CONTENT[7]  = "0.00000 NETWORK_ADDED default Address: 0.1.0.0";
+	EXPECTED_EVT_CONTENT[8]  = "0.00000 ROUTER_TURNED_ON foo1 Router: default Type: WSF_COMM_ROUTER \\";
+	EXPECTED_EVT_CONTENT[11] = "0.00000 ROUTER_TURNED_ON foo2 Router: default Type: WSF_COMM_ROUTER \\";
+	EXPECTED_EVT_CONTENT[14] = "0.00000 ROUTER_TURNED_ON foo1 Router: default Type: WSF_COMM_ROUTER \\";
+	EXPECTED_EVT_CONTENT[17] = "0.00000 ROUTER_TURNED_ON foo2 Router: default Type: WSF_COMM_ROUTER \\";	
+end_script_variables
+
+script bool CheckFileContents(string aFileName, Map<int, string> aExpectedResults)
+	FileIO file = FileIO();
+	bool success = file.Open(aFileName, "in");
+	
+	int lncount = 1;
+	string line = file.Readln();
+	while(!file.Eof())
+	{
+		if(aExpectedResults.Exists(lncount))
+		{
+			bool matches = aExpectedResults[lncount].StartsWith(line);
+			success = success && matches;
+			
+			if(!matches)
+			{
+				writeln(aFileName, " MATCH ", (string)lncount, " FAILED\n\t[Expected]:", aExpectedResults[lncount], "\n\t[Actual]:  ", line);
+			}
+			else
+			{
+				writeln(aFileName, " MATCH ", (string)lncount, " PASSED");
+			}
+		}
+		
+		lncount = lncount + 1;
+		line = file.Readln();
+	}	
+	return success;
+end_script
+
+script void SimulationComplete()
+   bool evtSuccess = CheckFileContents("my_results.evt", EXPECTED_EVT_CONTENT);
+   bool csvSuccess = CheckFileContents("my_results.csv", EXPECTED_CSV_CONTENT);
+   
+   if(evtSuccess && csvSuccess)
+   {
+	writeln("-PASS-");
+   }
+   else
+   {
+	writeln("-FAIL-");
+   }   
+end_script
